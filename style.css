@@ -1,0 +1,1101 @@
+/* =============================================================================
+   1. CSS VARIABLES
+   ============================================================================= */
+:root {
+  --bg-primary:      #1a1a2e;
+  --bg-terminal:     #0d1117;
+  --green-phosphor:  #39ff14;
+  --amber-focus:     #ffb347;
+  --earth-brown:     #8B4513;
+  --biogas-green:    #4caf50;
+  --energy-gold:     #ffd700;
+  --pixel-border:    3px solid var(--green-phosphor);
+
+  --font-main: 'Press Start 2P', monospace;
+  --font-size-base: 8px;
+  --font-size-sm: 7px;
+  --font-size-lg: 10px;
+  --font-size-xl: 14px;
+
+  --panel-padding: 12px;
+  --gap: 8px;
+}
+
+/* =============================================================================
+   2. RESET & BASE
+   ============================================================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--green-phosphor);
+  font-family: var(--font-main);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  transition: background-color 4s ease;
+}
+
+button {
+  font-family: var(--font-main);
+  font-size: var(--font-size-sm);
+  background: var(--bg-terminal);
+  color: var(--green-phosphor);
+  border: var(--pixel-border);
+  padding: 6px 10px;
+  cursor: pointer;
+  image-rendering: pixelated;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+button:hover {
+  background: var(--green-phosphor);
+  color: var(--bg-terminal);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+select, input[type="number"] {
+  font-family: var(--font-main);
+  font-size: var(--font-size-sm);
+  background: var(--bg-terminal);
+  color: var(--green-phosphor);
+  border: var(--pixel-border);
+  padding: 4px 6px;
+}
+
+select option {
+  background: var(--bg-terminal);
+}
+
+h2, h3 {
+  font-size: var(--font-size-lg);
+  letter-spacing: 1px;
+}
+
+/* =============================================================================
+   3. LAYOUT GRID
+   ============================================================================= */
+#site-header {
+  flex-shrink: 0;
+}
+
+#main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--gap);
+  padding: var(--gap);
+  flex: 1 0 auto;
+  min-height: 0;
+}
+
+#upgrades-panel {
+  margin: 0 var(--gap) var(--gap);
+}
+
+#resource-bar {
+  flex-shrink: 0;
+}
+
+/* =============================================================================
+   4. HEADER STYLES
+   ============================================================================= */
+#site-header {
+  background: var(--bg-terminal);
+  border-bottom: var(--pixel-border);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-shadow: 0 0 8px var(--green-phosphor);
+}
+
+.header-title {
+  font-size: var(--font-size-xl);
+  color: var(--green-phosphor);
+  letter-spacing: 2px;
+}
+
+.header-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--green-phosphor);
+  opacity: 0.7;
+}
+
+/* =============================================================================
+   5. PANEL SHARED STYLES
+   ============================================================================= */
+.panel {
+  background: var(--bg-terminal);
+  border: var(--pixel-border);
+  padding: var(--panel-padding);
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  overflow: hidden;
+}
+
+.panel-title {
+  border-bottom: 2px solid var(--green-phosphor);
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  text-shadow: 0 0 6px var(--green-phosphor);
+}
+
+/* =============================================================================
+   6. NURSERY GRID + PLANT TILE BASE
+   ============================================================================= */
+#plant-selector {
+  display: flex;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#plant-type-select {
+  flex: 1;
+  min-width: 120px;
+}
+
+#nursery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 4px;
+  flex: 1;
+}
+
+.plant-slot {
+  background: var(--earth-brown);
+  border: 2px solid #5a2d0c;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 2px 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.plant-slot.empty {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.plant-slot.mature {
+  border-color: var(--energy-gold);
+  box-shadow: 0 0 8px var(--energy-gold);
+  animation: mature-pulse 1s ease-in-out infinite;
+}
+
+@keyframes mature-pulse {
+  0%, 100% { box-shadow: 0 0 6px var(--energy-gold); }
+  50%       { box-shadow: 0 0 16px var(--energy-gold); }
+}
+
+.plant-slot-label {
+  font-size: 6px;
+  color: rgba(57, 255, 20, 0.8);
+  text-align: center;
+  word-break: break-all;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.plant-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--biogas-green);
+  transition: width 1s linear;
+}
+
+/* =============================================================================
+   7. PLANT SPRITES — CSS box-shadow pixel art stubs
+      Each plant type has 4 stages (stage-0 to stage-3).
+      Pixel art uses box-shadow on a 1px anchor element.
+   ============================================================================= */
+.plant-sprite {
+  width: 1px;
+  height: 1px;
+  position: relative;
+  margin-bottom: 4px;
+  image-rendering: pixelated;
+}
+
+/* --- Arachis pintoi (ground cover, low spreading) --- */
+.plant-sprite.arachis.stage-0 {
+  box-shadow:
+    4px 8px 0 3px #4a7c59;
+}
+.plant-sprite.arachis.stage-1 {
+  box-shadow:
+    2px 8px 0 3px #4a7c59,
+    6px 8px 0 3px #6aab7b,
+    4px 6px 0 2px #2d5a3d;
+}
+.plant-sprite.arachis.stage-2 {
+  box-shadow:
+    1px 8px 0 3px #4a7c59,
+    4px 7px 0 3px #6aab7b,
+    7px 8px 0 3px #4a7c59,
+    4px 5px 0 2px #2d5a3d,
+    2px 6px 0 2px #6aab7b;
+}
+.plant-sprite.arachis.stage-3 {
+  box-shadow:
+    0px 9px 0 3px #4a7c59,
+    3px 7px 0 3px #6aab7b,
+    6px 7px 0 3px #6aab7b,
+    9px 9px 0 3px #4a7c59,
+    2px 5px 0 2px #2d5a3d,
+    6px 5px 0 2px #2d5a3d,
+    4px 4px 0 2px #4a7c59;
+}
+
+/* --- Napier / Capim Elefante (tall grass) --- */
+.plant-sprite.napier.stage-0 {
+  box-shadow:
+    4px 10px 0 1px #5a8a3c;
+}
+.plant-sprite.napier.stage-1 {
+  box-shadow:
+    4px 10px 0 1px #5a8a3c,
+    4px 7px 0 1px #7ab85c,
+    3px 8px 0 1px #3a6025;
+}
+.plant-sprite.napier.stage-2 {
+  box-shadow:
+    4px 12px 0 1px #5a8a3c,
+    4px 9px 0 1px #7ab85c,
+    3px 10px 0 1px #3a6025,
+    5px 7px 0 2px #7ab85c,
+    3px 6px 0 2px #5a8a3c;
+}
+.plant-sprite.napier.stage-3 {
+  box-shadow:
+    4px 14px 0 1px #5a8a3c,
+    4px 11px 0 1px #7ab85c,
+    3px 12px 0 1px #3a6025,
+    6px 9px 0 2px #7ab85c,
+    2px 9px 0 2px #7ab85c,
+    5px 6px 0 3px #5a8a3c,
+    3px 5px 0 2px #3a6025,
+    4px 3px 0 2px #7ab85c;
+}
+
+/* --- Sugarcane --- */
+.plant-sprite.sugarcane.stage-0 {
+  box-shadow:
+    4px 10px 0 1px #8ab840;
+}
+.plant-sprite.sugarcane.stage-1 {
+  box-shadow:
+    4px 12px 0 1px #8ab840,
+    4px 9px 0 1px #c8e060,
+    3px 10px 0 1px #5a8020;
+}
+.plant-sprite.sugarcane.stage-2 {
+  box-shadow:
+    4px 14px 0 1px #8ab840,
+    4px 11px 0 1px #c8e060,
+    3px 12px 0 1px #5a8020,
+    5px 8px 0 2px #c8e060,
+    3px 7px 0 2px #8ab840;
+}
+.plant-sprite.sugarcane.stage-3 {
+  box-shadow:
+    4px 16px 0 1px #8ab840,
+    4px 13px 0 1px #c8e060,
+    3px 14px 0 1px #5a8020,
+    6px 10px 0 2px #c8e060,
+    2px 10px 0 2px #c8e060,
+    5px 7px 0 2px #8ab840,
+    3px 6px 0 2px #5a8020,
+    4px 4px 0 3px #c8e060;
+}
+
+/* --- Eucalyptus --- */
+.plant-sprite.eucalyptus.stage-0 {
+  box-shadow:
+    4px 12px 0 1px #7aaa88;
+}
+.plant-sprite.eucalyptus.stage-1 {
+  box-shadow:
+    4px 14px 0 1px #7aaa88,
+    4px 10px 0 3px #9acca8,
+    4px 12px 0 1px #4a7a58;
+}
+.plant-sprite.eucalyptus.stage-2 {
+  box-shadow:
+    4px 16px 0 1px #7aaa88,
+    4px 12px 0 4px #9acca8,
+    4px 14px 0 1px #4a7a58,
+    4px 8px 0 3px #7aaa88;
+}
+.plant-sprite.eucalyptus.stage-3 {
+  box-shadow:
+    4px 18px 0 1px #7aaa88,
+    4px 14px 0 4px #9acca8,
+    4px 16px 0 1px #4a7a58,
+    4px 10px 0 4px #7aaa88,
+    4px 6px 0 3px #9acca8,
+    3px 7px 0 2px #4a7a58,
+    5px 7px 0 2px #4a7a58;
+}
+
+/* --- Bamboo --- */
+.plant-sprite.bamboo.stage-0 {
+  box-shadow:
+    4px 12px 0 1px #6a9a50;
+}
+.plant-sprite.bamboo.stage-1 {
+  box-shadow:
+    4px 14px 0 1px #6a9a50,
+    4px 10px 0 1px #90cc70,
+    4px 12px 0 1px #406030,
+    2px 11px 0 3px #6a9a50;
+}
+.plant-sprite.bamboo.stage-2 {
+  box-shadow:
+    4px 18px 0 1px #6a9a50,
+    4px 14px 0 1px #90cc70,
+    4px 16px 0 1px #406030,
+    4px 10px 0 1px #90cc70,
+    2px 12px 0 3px #6a9a50,
+    6px 9px 0 3px #90cc70;
+}
+.plant-sprite.bamboo.stage-3 {
+  box-shadow:
+    4px 20px 0 1px #6a9a50,
+    4px 17px 0 1px #90cc70,
+    4px 18px 0 1px #406030,
+    4px 13px 0 1px #90cc70,
+    4px 9px 0 1px #406030,
+    2px 15px 0 3px #6a9a50,
+    6px 11px 0 3px #90cc70,
+    1px 10px 0 2px #6a9a50,
+    7px 14px 0 2px #90cc70;
+}
+
+/* --- Macauba (palm) --- */
+.plant-sprite.macauba.stage-0 {
+  box-shadow:
+    4px 12px 0 1px #8a7a40;
+}
+.plant-sprite.macauba.stage-1 {
+  box-shadow:
+    4px 14px 0 1px #8a7a40,
+    4px 10px 0 2px #baa860,
+    2px 11px 0 2px #8a7a40,
+    6px 11px 0 2px #8a7a40;
+}
+.plant-sprite.macauba.stage-2 {
+  box-shadow:
+    4px 16px 0 1px #8a7a40,
+    4px 12px 0 2px #baa860,
+    2px 13px 0 2px #8a7a40,
+    6px 13px 0 2px #8a7a40,
+    1px 10px 0 3px #baa860,
+    7px 10px 0 3px #baa860,
+    4px 9px 0 2px #604820;
+}
+.plant-sprite.macauba.stage-3 {
+  box-shadow:
+    4px 18px 0 1px #8a7a40,
+    4px 14px 0 2px #baa860,
+    4px 12px 0 1px #604820,
+    0px 11px 0 3px #baa860,
+    8px 11px 0 3px #baa860,
+    2px 9px 0 3px #8a7a40,
+    6px 9px 0 3px #8a7a40,
+    4px 7px 0 4px #baa860,
+    1px 6px 0 2px #604820,
+    7px 6px 0 2px #604820;
+}
+
+/* --- Ipe Amarelo --- */
+.plant-sprite.ipe.stage-0 {
+  box-shadow:
+    4px 14px 0 1px #c8a820;
+}
+.plant-sprite.ipe.stage-1 {
+  box-shadow:
+    4px 16px 0 1px #c8a820,
+    4px 11px 0 3px #f0d040,
+    4px 13px 0 1px #906000;
+}
+.plant-sprite.ipe.stage-2 {
+  box-shadow:
+    4px 18px 0 1px #c8a820,
+    4px 14px 0 1px #906000,
+    4px 10px 0 4px #f0d040,
+    2px 12px 0 3px #c8a820,
+    6px 12px 0 3px #c8a820;
+}
+.plant-sprite.ipe.stage-3 {
+  box-shadow:
+    4px 20px 0 1px #c8a820,
+    4px 16px 0 1px #906000,
+    4px 12px 0 5px #f0d040,
+    1px 14px 0 3px #c8a820,
+    7px 14px 0 3px #c8a820,
+    0px 10px 0 3px #f0d040,
+    8px 10px 0 3px #f0d040,
+    4px 8px 0 4px #c8a820,
+    2px 9px 0 2px #906000,
+    6px 9px 0 2px #906000;
+}
+
+/* Growth stage animation cycling */
+@keyframes sprout-bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-1px); }
+}
+
+.plant-sprite.stage-3 {
+  animation: sprout-bob 1.2s ease-in-out infinite;
+}
+
+/* =============================================================================
+   8. POMODORO PANEL STYLES
+   ============================================================================= */
+#pomodoro-display {
+  font-size: 24px;
+  text-align: center;
+  text-shadow: 0 0 16px var(--green-phosphor);
+  letter-spacing: 4px;
+  padding: 8px 0;
+}
+
+#pomodoro-phase-label {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--amber-focus);
+  letter-spacing: 2px;
+}
+
+#pomodoro-btn, #pomodoro-reset-btn {
+  width: 100%;
+}
+
+#pomodoro-cycles {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+}
+
+#bagacinho-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+#bagacinho-label {
+  font-size: 6px;
+  opacity: 0.6;
+}
+
+/* =============================================================================
+   9. BAGACINHO SPRITE + DANCE ANIMATION
+      4-frame smiling sugarcane stalk via box-shadow on 1px div
+   ============================================================================= */
+#bagacinho-sprite {
+  width: 1px;
+  height: 1px;
+  position: relative;
+  image-rendering: pixelated;
+  /* Frame 1 (default: standing) */
+  box-shadow:
+    /* stalk body */
+    4px 14px 0 2px #8ab840,
+    4px 12px 0 2px #c8e060,
+    4px 10px 0 2px #8ab840,
+    4px 8px 0 2px #c8e060,
+    /* head */
+    4px 5px 0 3px #c8e060,
+    /* eyes */
+    3px 4px 0 1px #1a1a2e,
+    5px 4px 0 1px #1a1a2e,
+    /* smile */
+    3px 6px 0 1px #1a1a2e,
+    4px 7px 0 1px #1a1a2e,
+    5px 6px 0 1px #1a1a2e,
+    /* leaves */
+    2px 9px 0 2px #4a7c59,
+    6px 11px 0 2px #4a7c59;
+  transition: box-shadow 0.2s;
+}
+
+@keyframes bagacinho-dance {
+  0% {
+    box-shadow:
+      4px 14px 0 2px #8ab840,
+      4px 12px 0 2px #c8e060,
+      4px 10px 0 2px #8ab840,
+      4px 8px 0 2px #c8e060,
+      4px 5px 0 3px #c8e060,
+      3px 4px 0 1px #1a1a2e,
+      5px 4px 0 1px #1a1a2e,
+      3px 6px 0 1px #1a1a2e,
+      4px 7px 0 1px #1a1a2e,
+      5px 6px 0 1px #1a1a2e,
+      2px 9px 0 2px #4a7c59,
+      6px 11px 0 2px #4a7c59;
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    box-shadow:
+      4px 14px 0 2px #8ab840,
+      4px 12px 0 2px #c8e060,
+      4px 10px 0 2px #8ab840,
+      4px 8px 0 2px #c8e060,
+      4px 4px 0 3px #c8e060,
+      3px 3px 0 1px #1a1a2e,
+      5px 3px 0 1px #1a1a2e,
+      3px 5px 0 1px #1a1a2e,
+      4px 6px 0 1px #1a1a2e,
+      5px 5px 0 1px #1a1a2e,
+      1px 9px 0 2px #4a7c59,
+      7px 11px 0 2px #4a7c59;
+    transform: translateY(-2px) rotate(5deg);
+  }
+  50% {
+    box-shadow:
+      4px 15px 0 2px #8ab840,
+      4px 13px 0 2px #c8e060,
+      4px 11px 0 2px #8ab840,
+      4px 9px 0 2px #c8e060,
+      4px 6px 0 3px #c8e060,
+      3px 5px 0 1px #1a1a2e,
+      5px 5px 0 1px #1a1a2e,
+      3px 7px 0 1px #1a1a2e,
+      4px 8px 0 1px #1a1a2e,
+      5px 7px 0 1px #1a1a2e,
+      2px 10px 0 2px #4a7c59,
+      6px 12px 0 2px #4a7c59;
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    box-shadow:
+      4px 14px 0 2px #8ab840,
+      4px 12px 0 2px #c8e060,
+      4px 10px 0 2px #8ab840,
+      4px 8px 0 2px #c8e060,
+      4px 4px 0 3px #c8e060,
+      3px 3px 0 1px #1a1a2e,
+      5px 3px 0 1px #1a1a2e,
+      3px 5px 0 1px #1a1a2e,
+      4px 6px 0 1px #1a1a2e,
+      5px 5px 0 1px #1a1a2e,
+      7px 9px 0 2px #4a7c59,
+      1px 11px 0 2px #4a7c59;
+    transform: translateY(-2px) rotate(-5deg);
+  }
+  100% {
+    box-shadow:
+      4px 14px 0 2px #8ab840,
+      4px 12px 0 2px #c8e060,
+      4px 10px 0 2px #8ab840,
+      4px 8px 0 2px #c8e060,
+      4px 5px 0 3px #c8e060,
+      3px 4px 0 1px #1a1a2e,
+      5px 4px 0 1px #1a1a2e,
+      3px 6px 0 1px #1a1a2e,
+      4px 7px 0 1px #1a1a2e,
+      5px 6px 0 1px #1a1a2e,
+      2px 9px 0 2px #4a7c59,
+      6px 11px 0 2px #4a7c59;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+#bagacinho-sprite.dancing {
+  animation: bagacinho-dance 0.8s steps(1) infinite;
+}
+
+/* =============================================================================
+   10. DIGESTER PANEL STYLES + HRT BAR + CH4 FLAME
+   ============================================================================= */
+.digester-label {
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+}
+
+#digester-queue-display, #digester-be-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+#digester-queue, #digester-be-display {
+  color: var(--energy-gold);
+  text-shadow: 0 0 6px var(--energy-gold);
+}
+
+#hrt-bar-label {
+  font-size: 6px;
+  margin-bottom: 3px;
+  opacity: 0.7;
+}
+
+#hrt-bar-track {
+  width: 100%;
+  height: 10px;
+  background: #1a3a1a;
+  border: 1px solid var(--biogas-green);
+  position: relative;
+  overflow: hidden;
+}
+
+#digester-hrt-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--biogas-green), var(--energy-gold));
+  box-shadow: 0 0 6px var(--biogas-green);
+  transition: width 1s linear;
+}
+
+/* CH4 Flame — pixel art fire via box-shadow */
+#ch4-flame {
+  width: 1px;
+  height: 1px;
+  margin: 4px auto;
+  image-rendering: pixelated;
+  box-shadow:
+    4px 10px 0 2px #ff4400,
+    4px 8px 0 2px #ff6600,
+    3px 7px 0 2px #ff8800,
+    5px 7px 0 2px #ff8800,
+    4px 5px 0 2px #ffaa00,
+    3px 4px 0 1px #ffcc00,
+    5px 4px 0 1px #ffcc00,
+    4px 3px 0 1px #ffee00;
+  animation: flame-flicker 0.4s ease-in-out infinite;
+  opacity: 0.3;
+}
+
+#ch4-flame.active {
+  opacity: 1;
+}
+
+@keyframes flame-flicker {
+  0%, 100% {
+    box-shadow:
+      4px 10px 0 2px #ff4400,
+      4px 8px 0 2px #ff6600,
+      3px 7px 0 2px #ff8800,
+      5px 7px 0 2px #ff8800,
+      4px 5px 0 2px #ffaa00,
+      3px 4px 0 1px #ffcc00,
+      5px 4px 0 1px #ffcc00,
+      4px 3px 0 1px #ffee00;
+    transform: scaleX(1);
+  }
+  25% {
+    box-shadow:
+      4px 10px 0 2px #ff4400,
+      4px 8px 0 3px #ff6600,
+      3px 6px 0 2px #ff8800,
+      5px 6px 0 2px #ff8800,
+      4px 4px 0 3px #ffaa00,
+      3px 3px 0 1px #ffcc00,
+      5px 3px 0 1px #ffcc00,
+      4px 2px 0 2px #ffee00;
+    transform: scaleX(0.9);
+  }
+  50% {
+    box-shadow:
+      4px 11px 0 2px #ff4400,
+      4px 9px 0 2px #ff6600,
+      3px 8px 0 2px #ff8800,
+      5px 8px 0 2px #ff8800,
+      4px 6px 0 2px #ffaa00,
+      4px 5px 0 1px #ffcc00,
+      4px 4px 0 1px #ffee00;
+    transform: scaleX(1.1);
+  }
+  75% {
+    box-shadow:
+      4px 10px 0 3px #ff4400,
+      4px 8px 0 2px #ff6600,
+      3px 7px 0 3px #ff8800,
+      5px 7px 0 1px #ff8800,
+      4px 5px 0 2px #ffaa00,
+      3px 3px 0 2px #ffcc00,
+      5px 4px 0 1px #ffcc00,
+      4px 2px 0 1px #ffee00;
+    transform: scaleX(0.95);
+  }
+}
+
+#digester-controls {
+  display: flex;
+  gap: var(--gap);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#load-bm-input {
+  width: 70px;
+}
+
+/* =============================================================================
+   11. UPGRADE CARD STYLES
+   ============================================================================= */
+#upgrades-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  padding: 4px 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.upgrade-card {
+  background: var(--bg-primary);
+  border: 2px solid #2a4a2a;
+  padding: 8px;
+  min-width: 140px;
+  max-width: 200px;
+  flex: 1 1 140px;
+  cursor: not-allowed;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.upgrade-card.available {
+  border-color: var(--green-phosphor);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.3);
+}
+
+.upgrade-card.available:hover {
+  box-shadow: 0 0 16px rgba(57, 255, 20, 0.6);
+  background: #0d1f0d;
+}
+
+.upgrade-card.purchased {
+  border-color: var(--energy-gold);
+  opacity: 0.6;
+  cursor: default;
+}
+
+.upgrade-card.locked {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.upgrade-label {
+  font-size: 6px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.upgrade-cost {
+  font-size: 6px;
+  color: var(--energy-gold);
+}
+
+.upgrade-status {
+  font-size: 5px;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  opacity: 0.7;
+}
+
+.upgrade-card.purchased .upgrade-status::after {
+  content: "✓";
+  color: var(--energy-gold);
+}
+
+.upgrade-card.locked .upgrade-status::after {
+  content: "?";
+  color: #555;
+}
+
+/* =============================================================================
+   12. RESOURCE BAR STYLES
+   ============================================================================= */
+#resource-bar {
+  background: var(--bg-terminal);
+  border-top: var(--pixel-border);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--font-size-base);
+}
+
+.resource-label {
+  opacity: 0.7;
+}
+
+#resource-bm {
+  color: var(--biogas-green);
+  text-shadow: 0 0 6px var(--biogas-green);
+  min-width: 60px;
+}
+
+#resource-be {
+  color: var(--energy-gold);
+  text-shadow: 0 0 6px var(--energy-gold);
+  min-width: 60px;
+}
+
+.resource-separator {
+  opacity: 0.3;
+}
+
+#day-night-indicator {
+  margin-left: auto;
+  font-size: var(--font-size-sm);
+  opacity: 0.7;
+  letter-spacing: 1px;
+}
+
+/* =============================================================================
+   13. FOCUS MODE OVERLAY
+   ============================================================================= */
+#focus-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 179, 71, 0);
+  pointer-events: none;
+  z-index: 1;
+  transition: background-color 1s ease;
+}
+
+body.focus-active #focus-overlay {
+  background: rgba(255, 179, 71, 0.08);
+}
+
+body.focus-active #pomodoro-display {
+  color: var(--amber-focus);
+  text-shadow: 0 0 16px var(--amber-focus);
+}
+
+body.focus-active .panel {
+  box-shadow: 0 0 12px rgba(255, 179, 71, 0.2);
+}
+
+/* =============================================================================
+   14. FLOATING TEXT (.floating-bm)
+   ============================================================================= */
+.floating-bm {
+  position: absolute;
+  font-family: var(--font-main);
+  font-size: 7px;
+  color: var(--biogas-green);
+  text-shadow: 0 0 4px var(--biogas-green);
+  pointer-events: none;
+  z-index: 100;
+  white-space: nowrap;
+  animation: floatUp 1.4s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-28px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-48px) scale(0.8);
+  }
+}
+
+/* =============================================================================
+   15. DAY / NIGHT CYCLE BODY CLASSES
+   ============================================================================= */
+body.dawn {
+  background-color: #1a1535;
+}
+body.dawn #site-header {
+  border-bottom-color: #8877cc;
+  text-shadow: 0 0 8px #8877cc;
+}
+
+body.morning {
+  background-color: #1a1a2e;
+}
+
+body.afternoon {
+  background-color: #1e2218;
+}
+body.afternoon #site-header {
+  border-bottom-color: #8bc34a;
+}
+
+body.dusk {
+  background-color: #2a1818;
+}
+body.dusk #site-header {
+  border-bottom-color: #ff7043;
+  text-shadow: 0 0 8px #ff7043;
+}
+body.dusk .header-title {
+  color: #ffcc80;
+}
+
+body.night {
+  background-color: #0a0a1a;
+}
+body.night #site-header {
+  border-bottom-color: #5c6bc0;
+  text-shadow: 0 0 8px #5c6bc0;
+}
+body.night .header-title {
+  color: #9fa8da;
+}
+
+/* All phase transitions */
+body, #site-header, .header-title {
+  transition: background-color 8s ease, border-color 8s ease, color 8s ease;
+}
+
+/* =============================================================================
+   16. MODALS (WELCOME-BACK + WIN)
+   ============================================================================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: var(--bg-terminal);
+  border: var(--pixel-border);
+  box-shadow: 0 0 32px rgba(57, 255, 20, 0.5);
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-box h3 {
+  font-size: var(--font-size-lg);
+  text-shadow: 0 0 8px var(--green-phosphor);
+}
+
+#welcome-back-away-time {
+  font-size: var(--font-size-sm);
+  color: var(--amber-focus);
+}
+
+#welcome-back-summary-label {
+  font-size: var(--font-size-sm);
+  opacity: 0.7;
+}
+
+#welcome-back-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 7px;
+  line-height: 1.8;
+}
+
+#welcome-back-list li::before {
+  content: "> ";
+  color: var(--green-phosphor);
+}
+
+#welcome-back-close {
+  margin-top: 8px;
+  width: 100%;
+}
+
+/* Win modal */
+.win-box {
+  max-width: 600px;
+  text-align: center;
+  border-color: var(--energy-gold);
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+}
+
+#win-map {
+  /* SP state silhouette placeholder — populated by ui.js with box-shadow art */
+  width: 1px;
+  height: 1px;
+  margin: 16px auto 24px;
+  image-rendering: pixelated;
+}
+
+#win-text {
+  font-size: var(--font-size-sm);
+  line-height: 2.4;
+  color: var(--energy-gold);
+  text-shadow: 0 0 8px var(--energy-gold);
+  min-height: 60px;
+  white-space: pre-wrap;
+}
+
+#win-continue {
+  margin-top: 16px;
+}
+
+/* =============================================================================
+   17. SCROLLBAR STYLING
+   ============================================================================= */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-terminal);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--green-phosphor);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #55ff2a;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--green-phosphor) var(--bg-terminal);
+}

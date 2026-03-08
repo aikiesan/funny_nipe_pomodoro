@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CP2B Research Station</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="morning">
+
+  <!-- Focus overlay (amber tint during Pomodoro focus phase) -->
+  <div id="focus-overlay"></div>
+
+  <!-- Header -->
+  <header id="site-header">
+    <span class="header-title">CP2B RESEARCH STATION</span>
+    <span class="header-subtitle">NIPE / UNICAMP</span>
+  </header>
+
+  <!-- Main 3-column grid -->
+  <main id="main-grid">
+
+    <!-- LEFT: Nursery Panel -->
+    <section id="nursery-panel" class="panel">
+      <h2 class="panel-title">NURSERY</h2>
+      <div id="plant-selector">
+        <select id="plant-type-select">
+          <option value="arachis">Arachis pintoi (3m / 5 BM)</option>
+          <option value="napier">Capim Elefante (8m / 15 BM)</option>
+          <option value="sugarcane">Cana-de-Acucar (10m / 20 BM)</option>
+        </select>
+        <button id="plant-btn">PLANT SEED</button>
+      </div>
+      <div id="nursery-grid">
+        <!-- 12 plant slot tiles rendered by nursery.js -->
+      </div>
+    </section>
+
+    <!-- CENTER: Pomodoro Panel -->
+    <section id="pomodoro-panel" class="panel">
+      <h2 class="panel-title">POMODORO</h2>
+      <div id="pomodoro-display">25:00</div>
+      <div id="pomodoro-phase-label">IDLE</div>
+      <button id="pomodoro-btn">START FOCUS</button>
+      <button id="pomodoro-reset-btn">RESET</button>
+      <div id="pomodoro-cycles">Cycles: 0</div>
+      <div id="bagacinho-container">
+        <div id="bagacinho-sprite"></div>
+        <div id="bagacinho-label">BAGACINHO</div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Digester Panel -->
+    <section id="digester-panel" class="panel">
+      <h2 class="panel-title">CP2B DIGESTER</h2>
+      <div id="digester-queue-display">
+        <span class="digester-label">BM Loaded:</span>
+        <span id="digester-queue">0</span>
+      </div>
+      <div id="hrt-bar-container">
+        <div id="hrt-bar-label">HRT Progress</div>
+        <div id="hrt-bar-track">
+          <div id="digester-hrt-bar"></div>
+        </div>
+      </div>
+      <div id="ch4-flame"></div>
+      <div id="digester-be-row">
+        <span class="digester-label">BE Produced:</span>
+        <span id="digester-be-display">0</span>
+      </div>
+      <div id="digester-controls">
+        <input id="load-bm-input" type="number" min="1" value="10" placeholder="BM amount">
+        <button id="load-bm-btn">LOAD BM</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Upgrades Panel -->
+  <section id="upgrades-panel" class="panel">
+    <h2 class="panel-title">UPGRADES</h2>
+    <div id="upgrades-list">
+      <!-- Upgrade cards rendered by upgrades.js -->
+    </div>
+  </section>
+
+  <!-- Resource Bar -->
+  <footer id="resource-bar">
+    <span class="resource-label">BM:</span>
+    <span id="resource-bm">0</span>
+    <span class="resource-separator">|</span>
+    <span class="resource-label">BE:</span>
+    <span id="resource-be">0</span>
+    <span class="resource-separator">|</span>
+    <span id="day-night-indicator">MORNING</span>
+  </footer>
+
+  <!-- Welcome-Back Modal -->
+  <div id="welcome-back-modal" class="modal hidden">
+    <div class="modal-box">
+      <h3>WELCOME BACK, PESQUISADOR</h3>
+      <div id="welcome-back-away-time">You were away for: --</div>
+      <div id="welcome-back-summary-label">While you were gone:</div>
+      <ul id="welcome-back-list"></ul>
+      <button id="welcome-back-close">RESUME RESEARCH</button>
+    </div>
+  </div>
+
+  <!-- Win Modal -->
+  <div id="win-modal" class="modal hidden">
+    <div class="modal-box win-box">
+      <div id="win-map"></div>
+      <div id="win-text"></div>
+      <button id="win-continue">CONTINUE (SANDBOX MODE)</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
