@@ -1,0 +1,281 @@
+/* =============================================================================
+   sprites.css — All pixel art: plant sprites (7 types × 4 stages),
+   Bagacinho, CH4 flame. Box-shadow art on 1px anchor elements.
+   ============================================================================= */
+
+/* ===== Plant Sprites ===== */
+
+/* --- Arachis pintoi (ground cover) --- */
+.plant-sprite.arachis.stage-0 {
+  box-shadow:
+    4px 8px 0 3px #4a7c59;
+}
+.plant-sprite.arachis.stage-1 {
+  box-shadow:
+    2px 8px 0 3px #4a7c59,
+    6px 8px 0 3px #6aab7b,
+    4px 6px 0 2px #2d5a3d;
+}
+.plant-sprite.arachis.stage-2 {
+  box-shadow:
+    1px 8px 0 3px #4a7c59,
+    4px 7px 0 3px #6aab7b,
+    7px 8px 0 3px #4a7c59,
+    4px 5px 0 2px #2d5a3d,
+    2px 6px 0 2px #6aab7b;
+}
+.plant-sprite.arachis.stage-3 {
+  box-shadow:
+    0px 9px 0 3px #4a7c59,
+    3px 7px 0 3px #6aab7b,
+    6px 7px 0 3px #6aab7b,
+    9px 9px 0 3px #4a7c59,
+    2px 5px 0 2px #2d5a3d,
+    6px 5px 0 2px #2d5a3d,
+    4px 4px 0 2px #4a7c59;
+}
+
+/* --- Napier / Capim Elefante (tall grass) --- */
+.plant-sprite.napier.stage-0 {
+  box-shadow:
+    4px 10px 0 1px #5a8a3c;
+}
+.plant-sprite.napier.stage-1 {
+  box-shadow:
+    4px 10px 0 1px #5a8a3c,
+    4px 7px 0 1px #7ab85c,
+    3px 8px 0 1px #3a6025;
+}
+.plant-sprite.napier.stage-2 {
+  box-shadow:
+    4px 12px 0 1px #5a8a3c,
+    4px 9px 0 1px #7ab85c,
+    3px 10px 0 1px #3a6025,
+    5px 7px 0 2px #7ab85c,
+    3px 6px 0 2px #5a8a3c;
+}
+.plant-sprite.napier.stage-3 {
+  box-shadow:
+    4px 14px 0 1px #5a8a3c,
+    4px 11px 0 1px #7ab85c,
+    3px 12px 0 1px #3a6025,
+    6px 9px 0 2px #7ab85c,
+    2px 9px 0 2px #7ab85c,
+    5px 6px 0 3px #5a8a3c,
+    3px 5px 0 2px #3a6025,
+    4px 3px 0 2px #7ab85c;
+}
+
+/* --- Sugarcane --- */
+.plant-sprite.sugarcane.stage-0 {
+  box-shadow:
+    4px 10px 0 1px #8ab840;
+}
+.plant-sprite.sugarcane.stage-1 {
+  box-shadow:
+    4px 12px 0 1px #8ab840,
+    4px 9px 0 1px #c8e060,
+    3px 10px 0 1px #5a8020;
+}
+.plant-sprite.sugarcane.stage-2 {
+  box-shadow:
+    4px 14px 0 1px #8ab840,
+    4px 11px 0 1px #c8e060,
+    3px 12px 0 1px #5a8020,
+    5px 8px 0 2px #c8e060,
+    3px 7px 0 2px #8ab840;
+}
+.plant-sprite.sugarcane.stage-3 {
+  box-shadow:
+    4px 16px 0 1px #8ab840,
+    4px 13px 0 1px #c8e060,
+    3px 14px 0 1px #5a8020,
+    6px 10px 0 2px #c8e060,
+    2px 10px 0 2px #c8e060,
+    5px 7px 0 2px #8ab840,
+    3px 6px 0 2px #5a8020,
+    4px 4px 0 3px #c8e060;
+}
+
+/* --- Eucalyptus --- */
+.plant-sprite.eucalyptus.stage-0 {
+  box-shadow:
+    4px 12px 0 1px #7aaa88;
+}
+.plant-sprite.eucalyptus.stage-1 {
+  box-shadow:
+    4px 14px 0 1px #7aaa88,
+    4px 10px 0 3px #9acca8,
+    4px 12px 0 1px #4a7a58;
+}
+.plant-sprite.eucalyptus.stage-2 {
+  box-shadow:
+    4px 16px 0 1px #7aaa88,
+    4px 12px 0 4px #9acca8,
+    4px 14px 0 1px #4a7a58,
+    4px 8px 0 3px #7aaa88;
+}
+.plant-sprite.eucalyptus.stage-3 {
+  box-shadow:
+    4px 18px 0 1px #7aaa88,
+    4px 14px 0 4px #9acca8,
+    4px 16px 0 1px #4a7a58,
+    4px 10px 0 4px #7aaa88,
+    4px 6px 0 3px #9acca8,
+    3px 7px 0 2px #4a7a58,
+    5px 7px 0 2px #4a7a58;
+}
+
+/* --- Bamboo --- */
+.plant-sprite.bamboo.stage-0 {
+  box-shadow:
+    4px 12px 0 1px #6a9a50;
+}
+.plant-sprite.bamboo.stage-1 {
+  box-shadow:
+    4px 14px 0 1px #6a9a50,
+    4px 10px 0 1px #90cc70,
+    4px 12px 0 1px #406030,
+    2px 11px 0 3px #6a9a50;
+}
+.plant-sprite.bamboo.stage-2 {
+  box-shadow:
+    4px 18px 0 1px #6a9a50,
+    4px 14px 0 1px #90cc70,
+    4px 16px 0 1px #406030,
+    4px 10px 0 1px #90cc70,
+    2px 12px 0 3px #6a9a50,
+    6px 9px 0 3px #90cc70;
+}
+.plant-sprite.bamboo.stage-3 {
+  box-shadow:
+    4px 20px 0 1px #6a9a50,
+    4px 17px 0 1px #90cc70,
+    4px 18px 0 1px #406030,
+    4px 13px 0 1px #90cc70,
+    4px 9px 0 1px #406030,
+    2px 15px 0 3px #6a9a50,
+    6px 11px 0 3px #90cc70,
+    1px 10px 0 2px #6a9a50,
+    7px 14px 0 2px #90cc70;
+}
+
+/* --- Macauba (palm) --- */
+.plant-sprite.macauba.stage-0 {
+  box-shadow:
+    4px 12px 0 1px #8a7a40;
+}
+.plant-sprite.macauba.stage-1 {
+  box-shadow:
+    4px 14px 0 1px #8a7a40,
+    4px 10px 0 2px #baa860,
+    2px 11px 0 2px #8a7a40,
+    6px 11px 0 2px #8a7a40;
+}
+.plant-sprite.macauba.stage-2 {
+  box-shadow:
+    4px 16px 0 1px #8a7a40,
+    4px 12px 0 2px #baa860,
+    2px 13px 0 2px #8a7a40,
+    6px 13px 0 2px #8a7a40,
+    1px 10px 0 3px #baa860,
+    7px 10px 0 3px #baa860,
+    4px 9px 0 2px #604820;
+}
+.plant-sprite.macauba.stage-3 {
+  box-shadow:
+    4px 18px 0 1px #8a7a40,
+    4px 14px 0 2px #baa860,
+    4px 12px 0 1px #604820,
+    0px 11px 0 3px #baa860,
+    8px 11px 0 3px #baa860,
+    2px 9px 0 3px #8a7a40,
+    6px 9px 0 3px #8a7a40,
+    4px 7px 0 4px #baa860,
+    1px 6px 0 2px #604820,
+    7px 6px 0 2px #604820;
+}
+
+/* --- Ipe Amarelo --- */
+.plant-sprite.ipe.stage-0 {
+  box-shadow:
+    4px 14px 0 1px #c8a820;
+}
+.plant-sprite.ipe.stage-1 {
+  box-shadow:
+    4px 16px 0 1px #c8a820,
+    4px 11px 0 3px #f0d040,
+    4px 13px 0 1px #906000;
+}
+.plant-sprite.ipe.stage-2 {
+  box-shadow:
+    4px 18px 0 1px #c8a820,
+    4px 14px 0 1px #906000,
+    4px 10px 0 4px #f0d040,
+    2px 12px 0 3px #c8a820,
+    6px 12px 0 3px #c8a820;
+}
+.plant-sprite.ipe.stage-3 {
+  box-shadow:
+    4px 20px 0 1px #c8a820,
+    4px 16px 0 1px #906000,
+    4px 12px 0 5px #f0d040,
+    1px 14px 0 3px #c8a820,
+    7px 14px 0 3px #c8a820,
+    0px 10px 0 3px #f0d040,
+    8px 10px 0 3px #f0d040,
+    4px 8px 0 4px #c8a820,
+    2px 9px 0 2px #906000,
+    6px 9px 0 2px #906000;
+}
+
+/* ===== Bagacinho Sprite ===== */
+#bagacinho-sprite {
+  width: 1px;
+  height: 1px;
+  position: relative;
+  image-rendering: pixelated;
+  /* Frame 1 (default: standing) */
+  box-shadow:
+    /* stalk body */
+    4px 14px 0 2px #8ab840,
+    4px 12px 0 2px #c8e060,
+    4px 10px 0 2px #8ab840,
+    4px 8px 0 2px #c8e060,
+    /* head */
+    4px 5px 0 3px #c8e060,
+    /* eyes */
+    3px 4px 0 1px #090b14,
+    5px 4px 0 1px #090b14,
+    /* smile */
+    3px 6px 0 1px #090b14,
+    4px 7px 0 1px #090b14,
+    5px 6px 0 1px #090b14,
+    /* leaves */
+    2px 9px 0 2px #4a7c59,
+    6px 11px 0 2px #4a7c59;
+  transition: box-shadow 0.2s;
+}
+
+/* ===== CH4 Flame ===== */
+#ch4-flame {
+  width: 1px;
+  height: 1px;
+  margin: 4px auto;
+  image-rendering: pixelated;
+  box-shadow:
+    4px 10px 0 2px #d63020,
+    4px 8px 0 2px #f05030,
+    3px 7px 0 2px #FFB300,
+    5px 7px 0 2px #FFB300,
+    4px 5px 0 2px #FFB300,
+    3px 4px 0 1px #FFD700,
+    5px 4px 0 1px #FFD700,
+    4px 3px 0 1px #FFD700;
+  animation: flame-flicker 0.4s ease-in-out infinite;
+  opacity: 0.3;
+}
+
+#ch4-flame.active {
+  opacity: 1;
+}

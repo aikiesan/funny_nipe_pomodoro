@@ -1,0 +1,449 @@
+/* =============================================================================
+   components.css — Panel internals: nursery, pomodoro, digester,
+   upgrade cards, modals, focus overlay, floating text.
+   ============================================================================= */
+
+/* ===== Panel base ===== */
+.panel {
+  background: var(--bg-panel);
+  border: var(--border-panel);
+  padding: var(--panel-padding);
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  overflow: hidden;
+}
+
+.panel-title {
+  border-bottom: 1px solid var(--bg-panel-edge);
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  color: var(--text-bright);
+  letter-spacing: 1px;
+}
+
+/* ===== Nursery Panel — isometric scene ===== */
+#nursery-panel {
+  background: transparent;
+  border: none;
+  box-shadow: 0 24px 32px rgba(0,0,0,0.8);
+  perspective: 600px;
+  perspective-origin: 50% 20%;
+}
+
+#plant-selector {
+  display: flex;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#plant-type-select {
+  flex: 1;
+  min-width: 120px;
+}
+
+#nursery-grid {
+  transform: rotateX(25deg) rotateZ(-8deg);
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  flex: 1;
+}
+
+/* Soil tile — 3D depth via box-shadow */
+.plant-slot {
+  background: var(--soil-top);
+  border: 2px solid var(--soil-edge);
+  box-shadow:
+    4px 4px 0 var(--soil-right),
+    4px 8px 0 var(--soil-left),
+    0  4px 0 var(--soil-left);
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 2px 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  transform-style: preserve-3d;
+  transition: filter 0.15s, transform 0.15s;
+}
+
+.plant-slot.empty {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.plant-slot:hover:not(.empty) {
+  filter: brightness(1.2);
+  transform: translateZ(4px);
+}
+
+.plant-slot.mature {
+  animation: iso-harvest-pulse 1.2s ease-in-out infinite;
+}
+
+.plant-slot-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-accent);
+  text-align: center;
+  word-break: break-all;
+  line-height: 1.2;
+  margin-top: 2px;
+  transform: rotateX(-25deg) rotateZ(8deg);
+}
+
+.plant-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--plant-vivid);
+  box-shadow: var(--shadow-glow-green);
+  transition: width 1s linear;
+}
+
+/* Plant sprite base + counter-rotation to stand upright in tilted grid */
+.plant-sprite {
+  width: 1px;
+  height: 1px;
+  position: relative;
+  margin-bottom: 4px;
+  image-rendering: pixelated;
+  transform: rotateX(-25deg) rotateZ(8deg);
+  transform-style: preserve-3d;
+}
+
+/* ===== Pomodoro Panel ===== */
+#pomodoro-display {
+  font-size: 24px;
+  text-align: center;
+  color: var(--timer-screen);
+  background: var(--bg-scene);
+  box-shadow: inset 0 0 12px var(--bg-deep);
+  letter-spacing: 4px;
+  padding: 8px 0;
+}
+
+body.focus-active #pomodoro-display {
+  color: var(--timer-amber);
+  text-shadow: 0 0 8px var(--timer-amber);
+}
+
+#pomodoro-phase-label {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+}
+
+body.focus-active #pomodoro-phase-label {
+  color: var(--timer-amber);
+}
+
+#pomodoro-btn, #pomodoro-reset-btn {
+  width: 100%;
+}
+
+#pomodoro-cycles {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+#bagacinho-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+#bagacinho-label {
+  font-size: var(--font-size-xs);
+  color: var(--plant-vivid);
+  opacity: 0.8;
+}
+
+/* ===== Digester Panel ===== */
+#digester-panel {
+  border: 2px solid var(--metal-mid);
+  box-shadow: 0 0 16px rgba(41,182,246,0.2);
+}
+
+.digester-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+#digester-queue-display, #digester-be-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+#digester-queue {
+  color: var(--bm-green);
+  text-shadow: 0 0 4px var(--bm-green);
+}
+
+#digester-be-display {
+  color: var(--energy-gold);
+  text-shadow: 0 0 6px var(--energy-gold);
+}
+
+#hrt-bar-label {
+  font-size: var(--font-size-xs);
+  margin-bottom: 3px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+#hrt-bar-track {
+  width: 100%;
+  height: 10px;
+  background: var(--energy-empty);
+  border: 1px solid var(--metal-mid);
+  position: relative;
+  overflow: hidden;
+}
+
+#digester-hrt-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--energy-fill), var(--energy-glow));
+  box-shadow: 0 0 4px var(--energy-glow);
+  transition: width 1s linear;
+}
+
+#digester-controls {
+  display: flex;
+  gap: var(--gap);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#load-bm-input {
+  width: 70px;
+}
+
+/* ===== Upgrade Cards ===== */
+#upgrades-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  padding: 4px 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.upgrade-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--bg-panel-edge);
+  border-left: 3px solid var(--bg-panel-edge);
+  padding: 8px;
+  min-width: 140px;
+  max-width: 200px;
+  flex: 1 1 140px;
+  cursor: not-allowed;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.upgrade-card.available {
+  border-left: 3px solid var(--glow-blue);
+  box-shadow: 0 0 8px rgba(41,182,246,0.2);
+  cursor: pointer;
+}
+
+.upgrade-card.available:hover {
+  box-shadow: 0 0 16px rgba(41,182,246,0.4);
+}
+
+/* Tier-specific left border for available (clickable) cards */
+.upgrade-card.available[data-tier="1"] { border-left-color: var(--bm-green); }
+.upgrade-card.available[data-tier="2"] { border-left-color: var(--glow-blue); }
+.upgrade-card.available[data-tier="3"] { border-left-color: var(--flower-pink); }
+.upgrade-card.available[data-tier="4"] { border-left-color: var(--energy-gold); }
+
+.upgrade-card.available-broke {
+  border-left: 3px solid var(--metal-mid);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.upgrade-card.purchased {
+  border-left: 3px solid var(--energy-gold);
+  opacity: 0.7;
+  cursor: default;
+  background: linear-gradient(135deg, var(--bg-panel), rgba(255,215,0,0.04));
+}
+
+.upgrade-card.locked {
+  opacity: 0.25;
+  filter: brightness(0.4);
+  cursor: not-allowed;
+}
+
+.upgrade-label {
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  margin-bottom: 4px;
+  display: block;
+  color: var(--text-bright);
+}
+
+.upgrade-cost {
+  font-size: var(--font-size-xs);
+  color: var(--energy-gold);
+}
+
+.upgrade-status {
+  font-size: 5px;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  opacity: 0.7;
+}
+
+.upgrade-card.purchased .upgrade-status::after {
+  content: "✓";
+  color: var(--energy-gold);
+}
+
+.upgrade-card.locked .upgrade-status::after {
+  content: "?";
+  color: var(--text-secondary);
+}
+
+/* ===== Focus Overlay ===== */
+#focus-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 179, 71, 0);
+  pointer-events: none;
+  z-index: 1;
+  transition: background-color 1s ease;
+}
+
+body.focus-active #focus-overlay {
+  background: var(--focus-tint);
+}
+
+body.focus-active .panel {
+  box-shadow: 0 0 20px rgba(255, 179, 71, 0.15);
+}
+
+/* ===== Floating harvest text ===== */
+.floating-bm {
+  position: fixed;
+  font-family: var(--font-main);
+  font-size: var(--font-size-sm);
+  color: var(--energy-gold);
+  text-shadow: 0 0 4px var(--energy-gold);
+  pointer-events: none;
+  z-index: 100;
+  white-space: nowrap;
+  animation: floatUp 1.4s ease-out forwards;
+}
+
+/* ===== Modals ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(9,11,20,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: modal-appear 0.25s ease-out;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--glow-blue);
+  box-shadow: var(--shadow-glow-blue);
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-box h3 {
+  font-size: var(--font-size-lg);
+  color: var(--text-bright);
+  text-shadow: var(--shadow-glow-blue);
+}
+
+#welcome-back-away-time {
+  font-size: var(--font-size-sm);
+  color: var(--timer-amber);
+}
+
+#welcome-back-summary-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+#welcome-back-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 7px;
+  line-height: 1.8;
+  color: var(--text-bright);
+}
+
+#welcome-back-list li::before {
+  content: "> ";
+  color: var(--glow-blue);
+}
+
+#welcome-back-close {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.win-box {
+  max-width: 600px;
+  text-align: center;
+  border-color: var(--energy-gold);
+  box-shadow: 0 0 40px rgba(255,215,0,0.4);
+}
+
+#win-map {
+  width: 1px;
+  height: 1px;
+  margin: 16px auto 24px;
+  image-rendering: pixelated;
+}
+
+#win-text {
+  font-size: var(--font-size-sm);
+  line-height: 2.4;
+  color: var(--energy-gold);
+  text-shadow: 0 0 8px var(--energy-gold);
+  min-height: 60px;
+  white-space: pre-wrap;
+}
+
+#win-continue {
+  margin-top: 16px;
+}

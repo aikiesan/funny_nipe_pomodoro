@@ -1,0 +1,131 @@
+/* =============================================================================
+   layout.css — Page grid, header, scene icons, resource bar.
+   ============================================================================= */
+
+/* --- Header --- */
+#site-header {
+  flex-shrink: 0;
+  background: var(--bg-panel);
+  border-bottom: 2px solid var(--glow-blue);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  font-size: var(--font-size-xl);
+  color: var(--text-bright);
+  letter-spacing: 2px;
+  text-shadow: var(--shadow-glow-blue);
+}
+
+.header-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+/* --- Main grid: icon col | scene | machine col --- */
+#main-grid {
+  display: grid;
+  grid-template-columns: 48px 1fr 280px;
+  grid-template-rows: 1fr auto;
+  gap: var(--gap);
+  padding: var(--gap);
+  flex: 1 0 auto;
+  min-height: 0;
+}
+
+/* Left icon column spans both rows */
+#scene-icons {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.scene-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--frame-icon);
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.scene-icon:hover {
+  background: var(--bg-panel);
+  color: var(--text-bright);
+}
+
+/* Nursery: center col, row 1 */
+#nursery-panel {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+/* Pomodoro: center col, row 2 */
+#pomodoro-panel {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Digester: right col, both rows */
+#digester-panel {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+/* --- Upgrades strip --- */
+#upgrades-panel {
+  margin: 0 var(--gap) var(--gap);
+}
+
+/* --- Resource bar footer --- */
+#resource-bar {
+  flex-shrink: 0;
+  background: var(--bg-deep);
+  border-top: 1px solid var(--bg-panel-edge);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--font-size-base);
+}
+
+.resource-label {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+#resource-bm {
+  color: var(--bm-green);
+  text-shadow: 0 0 6px var(--bm-green);
+  min-width: 60px;
+}
+
+#resource-be {
+  color: var(--energy-gold);
+  text-shadow: 0 0 6px var(--energy-gold);
+  min-width: 60px;
+}
+
+.resource-separator {
+  color: var(--bg-panel-edge);
+  opacity: 0.8;
+}
+
+#day-night-indicator {
+  margin-left: auto;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}

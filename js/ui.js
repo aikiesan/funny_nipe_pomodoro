@@ -167,11 +167,12 @@ function tickDayNight(deltaSeconds) {
 }
 
 /**
- * Creates a floating "+X BM" div at the given anchor element's position.
+ * Creates a floating text div at the given anchor element's position.
  * @param {Element} anchorEl
  * @param {string} text
+ * @param {string} [cssColorVar='--energy-gold'] - CSS custom property name for the text color
  */
-function showFloatingText(anchorEl, text) {
+function showFloatingText(anchorEl, text, cssColorVar = '--energy-gold') {
   const rect = anchorEl.getBoundingClientRect();
   const el = document.createElement("div");
   el.className = "floating-bm";
@@ -179,6 +180,8 @@ function showFloatingText(anchorEl, text) {
   el.style.left = `${rect.left + rect.width / 2}px`;
   el.style.top = `${rect.top}px`;
   el.style.position = "fixed";
+  el.style.color = `var(${cssColorVar})`;
+  el.style.textShadow = `0 0 4px var(${cssColorVar})`;
   document.body.appendChild(el);
   el.addEventListener("animationend", () => el.remove());
 }
