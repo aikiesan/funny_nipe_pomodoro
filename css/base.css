@@ -1,0 +1,95 @@
+/* =============================================================================
+   base.css — Reset, html/body, global element defaults.
+   ============================================================================= */
+
+/* --- Reset --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-bright);
+  font-family: var(--font-main);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* --- Buttons --- */
+button {
+  font-family: var(--font-main);
+  font-size: var(--font-size-sm);
+  background: var(--bg-panel-edge);
+  color: var(--text-bright);
+  border: 1px solid var(--glow-blue);
+  padding: 6px 10px;
+  cursor: pointer;
+  image-rendering: pixelated;
+  transition: background-color 0.1s, color 0.1s, box-shadow 0.1s;
+}
+
+button:hover {
+  background: var(--glow-blue);
+  color: var(--bg-deep);
+  box-shadow: var(--shadow-glow-blue);
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* --- Form controls --- */
+select, input[type="number"] {
+  font-family: var(--font-main);
+  font-size: var(--font-size-sm);
+  background: var(--bg-scene);
+  color: var(--text-bright);
+  border: 1px solid var(--bg-panel-edge);
+  padding: 4px 6px;
+}
+
+select option {
+  background: var(--bg-scene);
+}
+
+/* --- Headings --- */
+h2, h3 {
+  font-size: var(--font-size-lg);
+  letter-spacing: 1px;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-scene);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glow-blue);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--glow-cyan);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--glow-blue) var(--bg-scene);
+}

@@ -1,0 +1,258 @@
+/* =============================================================================
+   animations.css — All @keyframes and CSS transitions.
+   Day/night body classes, stars, harvest pulse, float text, dance, flame.
+   ============================================================================= */
+
+/* ===== Global phase transitions ===== */
+body, #site-header, .header-title {
+  transition: background-color 8s ease, border-color 8s ease, color 8s ease;
+}
+
+/* ===== Day/Night ambient glow variables ===== */
+body.dawn      { --ambient-glow: rgba(255,183,77,0.08); }
+body.morning   { --ambient-glow: rgba(41,182,246,0.05); }
+body.afternoon { --ambient-glow: rgba(76,175,80,0.06); }
+body.dusk      { --ambient-glow: rgba(239,83,80,0.10); }
+body.night     { --ambient-glow: rgba(94,53,177,0.08); }
+
+/* Day/night header accent tweaks */
+body.dawn      #site-header { border-bottom-color: #8877cc; }
+body.afternoon #site-header { border-bottom-color: #8bc34a; }
+body.dusk      #site-header { border-bottom-color: #ff7043; }
+body.night     #site-header { border-bottom-color: #5c6bc0; }
+body.night     .header-title { color: #9fa8da; }
+
+/* ===== Night stars via body::after ===== */
+body.night::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent;
+  box-shadow:
+    120px  80px 1px 1px rgba(255,255,255,0.6),
+    240px  45px 1px 1px rgba(255,255,255,0.4),
+    360px 120px 1px 1px rgba(255,255,255,0.5),
+     80px 200px 1px 1px rgba(255,255,255,0.3),
+    500px  60px 1px 1px rgba(255,255,255,0.5),
+    620px 150px 1px 1px rgba(255,255,255,0.4),
+    750px  30px 1px 1px rgba(255,255,255,0.6),
+    900px  90px 1px 1px rgba(255,255,255,0.3),
+    180px 320px 1px 1px rgba(255,255,255,0.4),
+    420px 280px 1px 1px rgba(255,255,255,0.5),
+    650px 240px 1px 1px rgba(255,255,255,0.3),
+    820px 180px 1px 1px rgba(255,255,255,0.6),
+   1000px  70px 1px 1px rgba(255,255,255,0.4),
+   1100px 200px 1px 1px rgba(255,255,255,0.5),
+    300px 100px 1px 1px rgba(255,255,255,0.3),
+    550px 330px 1px 1px rgba(255,255,255,0.4),
+    730px 270px 1px 1px rgba(255,255,255,0.5),
+    950px 140px 1px 1px rgba(255,255,255,0.3),
+   1200px  80px 1px 1px rgba(255,255,255,0.6),
+     70px 400px 1px 1px rgba(255,255,255,0.4),
+    450px 360px 1px 1px rgba(255,255,255,0.3),
+    680px  50px 1px 1px rgba(255,255,255,0.5),
+    870px 300px 1px 1px rgba(255,255,255,0.4),
+   1050px 250px 1px 1px rgba(255,255,255,0.3),
+    200px 450px 1px 1px rgba(255,255,255,0.5),
+    600px 420px 1px 1px rgba(255,255,255,0.4),
+    800px 380px 1px 1px rgba(255,255,255,0.6),
+   1150px 320px 1px 1px rgba(255,255,255,0.3),
+    350px 500px 1px 1px rgba(255,255,255,0.4),
+    750px 460px 1px 1px rgba(255,255,255,0.5);
+  animation: star-twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes star-twinkle {
+  0%   { opacity: 0.4; }
+  100% { opacity: 1.0; }
+}
+
+/* ===== Isometric harvest pulse ===== */
+@keyframes iso-harvest-pulse {
+  0%, 100% {
+    box-shadow:
+      4px 4px 0 var(--soil-right),
+      0  4px 0 var(--soil-left),
+      0 0 8px var(--energy-gold);
+  }
+  50% {
+    box-shadow:
+      4px 4px 0 var(--soil-right),
+      0  4px 0 var(--soil-left),
+      0 0 20px var(--energy-gold),
+      0 0 40px rgba(255,215,0,0.3);
+  }
+}
+
+/* ===== Floating harvest text ===== */
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-28px) translateX(4px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-56px) translateX(8px) scale(0.8);
+  }
+}
+
+/* ===== Plant mature bob (includes counter-rotation) ===== */
+@keyframes sprout-bob {
+  0%, 100% { transform: rotateX(-25deg) rotateZ(8deg) translateY(0); }
+  50%       { transform: rotateX(-25deg) rotateZ(8deg) translateY(-1px); }
+}
+
+.plant-sprite.stage-3 {
+  animation: sprout-bob 1.2s ease-in-out infinite;
+}
+
+/* ===== Bagacinho dance ===== */
+@keyframes bagacinho-dance {
+  0% {
+    box-shadow:
+      4px 14px 0 2px #8ab840,
+      4px 12px 0 2px #c8e060,
+      4px 10px 0 2px #8ab840,
+      4px 8px 0 2px #c8e060,
+      4px 5px 0 3px #c8e060,
+      3px 4px 0 1px #090b14,
+      5px 4px 0 1px #090b14,
+      3px 6px 0 1px #090b14,
+      4px 7px 0 1px #090b14,
+      5px 6px 0 1px #090b14,
+      2px 9px 0 2px #4a7c59,
+      6px 11px 0 2px #4a7c59;
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    box-shadow:
+      4px 14px 0 2px #8ab840,
+      4px 12px 0 2px #c8e060,
+      4px 10px 0 2px #8ab840,
+      4px 8px 0 2px #c8e060,
+      4px 4px 0 3px #c8e060,
+      3px 3px 0 1px #090b14,
+      5px 3px 0 1px #090b14,
+      3px 5px 0 1px #090b14,
+      4px 6px 0 1px #090b14,
+      5px 5px 0 1px #090b14,
+      1px 9px 0 2px #4a7c59,
+      7px 11px 0 2px #4a7c59;
+    transform: translateY(-2px) rotate(5deg);
+  }
+  50% {
+    box-shadow:
+      4px 15px 0 2px #8ab840,
+      4px 13px 0 2px #c8e060,
+      4px 11px 0 2px #8ab840,
+      4px 9px 0 2px #c8e060,
+      4px 6px 0 3px #c8e060,
+      3px 5px 0 1px #090b14,
+      5px 5px 0 1px #090b14,
+      3px 7px 0 1px #090b14,
+      4px 8px 0 1px #090b14,
+      5px 7px 0 1px #090b14,
+      2px 10px 0 2px #4a7c59,
+      6px 12px 0 2px #4a7c59;
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    box-shadow:
+      4px 14px 0 2px #8ab840,
+      4px 12px 0 2px #c8e060,
+      4px 10px 0 2px #8ab840,
+      4px 8px 0 2px #c8e060,
+      4px 4px 0 3px #c8e060,
+      3px 3px 0 1px #090b14,
+      5px 3px 0 1px #090b14,
+      3px 5px 0 1px #090b14,
+      4px 6px 0 1px #090b14,
+      5px 5px 0 1px #090b14,
+      7px 9px 0 2px #4a7c59,
+      1px 11px 0 2px #4a7c59;
+    transform: translateY(-2px) rotate(-5deg);
+  }
+  100% {
+    box-shadow:
+      4px 14px 0 2px #8ab840,
+      4px 12px 0 2px #c8e060,
+      4px 10px 0 2px #8ab840,
+      4px 8px 0 2px #c8e060,
+      4px 5px 0 3px #c8e060,
+      3px 4px 0 1px #090b14,
+      5px 4px 0 1px #090b14,
+      3px 6px 0 1px #090b14,
+      4px 7px 0 1px #090b14,
+      5px 6px 0 1px #090b14,
+      2px 9px 0 2px #4a7c59,
+      6px 11px 0 2px #4a7c59;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+#bagacinho-sprite.dancing {
+  animation: bagacinho-dance 0.8s steps(1) infinite;
+}
+
+/* ===== CH4 flame flicker ===== */
+@keyframes flame-flicker {
+  0%, 100% {
+    box-shadow:
+      4px 10px 0 2px #d63020,
+      4px 8px 0 2px #f05030,
+      3px 7px 0 2px #FFB300,
+      5px 7px 0 2px #FFB300,
+      4px 5px 0 2px #FFB300,
+      3px 4px 0 1px #FFD700,
+      5px 4px 0 1px #FFD700,
+      4px 3px 0 1px #FFD700;
+    transform: scaleX(1);
+  }
+  25% {
+    box-shadow:
+      4px 10px 0 2px #d63020,
+      4px 8px 0 3px #f05030,
+      3px 6px 0 2px #FFB300,
+      5px 6px 0 2px #FFB300,
+      4px 4px 0 3px #FFB300,
+      3px 3px 0 1px #FFD700,
+      5px 3px 0 1px #FFD700,
+      4px 2px 0 2px #FFD700;
+    transform: scaleX(0.9);
+  }
+  50% {
+    box-shadow:
+      4px 11px 0 2px #d63020,
+      4px 9px 0 2px #f05030,
+      3px 8px 0 2px #FFB300,
+      5px 8px 0 2px #FFB300,
+      4px 6px 0 2px #FFB300,
+      4px 5px 0 1px #FFD700,
+      4px 4px 0 1px #FFD700;
+    transform: scaleX(1.1);
+  }
+  75% {
+    box-shadow:
+      4px 10px 0 3px #d63020,
+      4px 8px 0 2px #f05030,
+      3px 7px 0 3px #FFB300,
+      5px 7px 0 1px #FFB300,
+      4px 5px 0 2px #FFB300,
+      3px 3px 0 2px #FFD700,
+      5px 4px 0 1px #FFD700,
+      4px 2px 0 1px #FFD700;
+    transform: scaleX(0.95);
+  }
+}
+
+/* ===== Modal appear ===== */
+@keyframes modal-appear {
+  0%   { opacity: 0; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}

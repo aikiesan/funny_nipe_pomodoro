@@ -1,0 +1,74 @@
+/* =============================================================================
+   theme.css — Design tokens only. No rules, no selectors.
+   ============================================================================= */
+:root {
+  /* === Background / Frame === */
+  --bg-deep:        #090b14;   /* outer void, near-black navy */
+  --bg-scene:       #0d1117;   /* main scene bg */
+  --bg-panel:       #131825;   /* panel/card surface */
+  --bg-panel-edge:  #1e2d4a;   /* subtle panel border tint */
+  --frame-icon:     #90A4AE;   /* side icon color */
+
+  /* === Soil / Earth (isometric tile faces) === */
+  --soil-top:       #6B3A2A;   /* top face of 3D tile */
+  --soil-left:      #4A2418;   /* left face (darkest, shadow) */
+  --soil-right:     #8B5230;   /* right face (lighter, lit) */
+  --soil-edge:      #3A1A10;   /* tile bottom edge */
+
+  /* === Plants === */
+  --plant-vivid:    #4CAF50;   /* main bright leaf green */
+  --plant-dark:     #2E7D32;   /* deep shadow green */
+  --plant-light:    #81C784;   /* highlight/tip green */
+  --plant-pale:     #C8E6C9;   /* very light leaf tip */
+  --flower-pink:    #CE93D8;   /* Ipe Amarelo bloom (purple-pink) */
+  --flower-gold:    #FFD54F;   /* Macauba / sugarcane golden */
+  --arachis-pink:   #F48FB1;   /* Arachis pintoi ground flower */
+
+  /* === Digester Machine === */
+  --metal-dark:     #263238;   /* dark machine body */
+  --metal-mid:      #455A64;   /* medium metal surface */
+  --metal-light:    #78909C;   /* highlight edge */
+  --metal-copper:   #BF7E52;   /* copper pipe accent */
+  --glow-blue:      #29B6F6;   /* machine main glow */
+  --glow-cyan:      #00E5FF;   /* bright cyan active state */
+
+  /* === Pomodoro Timer === */
+  --timer-body:     #1A1F2E;   /* device casing */
+  --timer-screen:   #E3F2FD;   /* digit display color */
+  --timer-amber:    #FFB300;   /* warm base glow when running */
+  --timer-red:      #EF5350;   /* urgent / last 5 min */
+
+  /* === Energy / BE === */
+  --energy-empty:   #1B2838;   /* empty bar segment */
+  --energy-fill:    #4CAF50;   /* green fill segment */
+  --energy-glow:    #69F0AE;   /* segment edge glow */
+  --energy-gold:    #FFD700;   /* BE currency color */
+
+  /* === Biomass / BM === */
+  --bm-green:       #66BB6A;   /* biomass counter */
+
+  /* === Focus Overlay === */
+  --focus-tint:     rgba(255, 179, 71, 0.10);
+
+  /* === Text === */
+  --text-bright:    #E8F5E9;   /* primary on dark */
+  --text-secondary: #78909C;   /* muted / labels */
+  --text-accent:    #B9F6CA;   /* highlight text */
+
+  /* === Typography === */
+  --font-main:      'Press Start 2P', monospace;
+  --font-size-xs:   6px;
+  --font-size-sm:   7px;
+  --font-size-base: 8px;
+  --font-size-lg:   10px;
+  --font-size-xl:   14px;
+
+  /* === Spacing === */
+  --panel-padding:  14px;
+  --gap:            8px;
+  --border-panel:   2px solid var(--bg-panel-edge);
+
+  /* === Shadows === */
+  --shadow-glow-blue:  0 0 8px var(--glow-blue), 0 0 16px rgba(41,182,246,0.3);
+  --shadow-glow-green: 0 0 6px var(--energy-glow);
+}

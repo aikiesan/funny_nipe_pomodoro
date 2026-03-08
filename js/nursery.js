@@ -8,6 +8,7 @@
 
 import { getState, addBiomass, addPlant, updatePlant, removePlant } from "./gameState.js";
 import { isFocusActive } from "./timer.js";
+import { showFloatingText } from "./ui.js";
 
 /** Canonical plant type definitions. */
 const PLANT_TYPES = {
@@ -21,6 +22,48 @@ const PLANT_TYPES = {
 };
 
 const NURSERY_SIZE = 12;
+
+/** Growth progress thresholds for each visual stage. */
+const GROWTH_STAGE_THRESHOLDS = { s1: 0.25, s2: 0.60, s3: 1.0 };
+
+/**
+ * Pure: maps 0.0–1.0 progress ratio to stage index 0–3.
+ * @param {number} ratio
+ * @returns {number}
+ */
+function progressToStage(ratio) {
+  if (ratio >= 1.0)                        return 3;
+  if (ratio >= GROWTH_STAGE_THRESHOLDS.s2) return 2;
+  if (ratio >= GROWTH_STAGE_THRESHOLDS.s1) return 1;
+  return 0;
+}
+
+/**
+ * Pure: creates a new plant data entry (no DOM, no state side-effects).
+ * @param {string} uid
+ * @param {string} type
+ * @param {number} growthDuration - seconds
+ * @returns {Object}
+ */
+function createPlantEntry(uid, type, growthDuration) {
+  return { uid, type, plantedAt: Date.now(), growthDuration, progress: 0, harvested: false };
+}
+
+/**
+ * Pure: calculates effective growth duration in seconds based on game context.
+ * @param {string} type - key from PLANT_TYPES
+ * @param {{ focusActive: boolean, isNight: boolean, hasSubstrate: boolean }} ctx
+ * @returns {number} duration in seconds
+ */
+function calcGrowthDuration(type, { focusActive, isNight, hasSubstrate }) {
+  const pt = PLANT_TYPES[type];
+  if (!pt) return 0;
+  let duration = pt.baseGrowthMin * 60;
+  if (focusActive)   duration /= 2;
+  if (hasSubstrate)  duration /= 1.5;
+  if (isNight)       duration *= 1.15;
+  return duration;
+}
 
 // Unlocked tiers (starts at 1; upgrades call unlockTier to expand)
 const _unlockedTiers = new Set([1]);
@@ -123,25 +166,13 @@ function plantSeed(slotIndex, plantType) {
   const uid = `plant_${Date.now()}_${_uidCounter++}`;
   const state = getState();
 
-  // Calculate actual growth duration
-  const baseSec = pt.baseGrowthMin * 60;
-  const focusActive = isFocusActive();
-  const isNight = state.dayNight.phase === "night";
-  const hasSubstrate = !!state.upgrades.advanced_substrate;
+  const duration = calcGrowthDuration(plantType, {
+    focusActive:  isFocusActive(),
+    isNight:      state.dayNight.phase === "night",
+    hasSubstrate: !!state.upgrades.advanced_substrate
+  });
 
-  let duration = baseSec;
-  if (focusActive) duration /= 2;
-  if (hasSubstrate) duration /= 1.5;
-  if (isNight) duration *= 1.15;
-
-  const plantEntry = {
-    uid,
-    type: plantType,
-    plantedAt: Date.now(),
-    growthDuration: duration,
-    progress: 0,
-    harvested: false
-  };
+  const plantEntry = createPlantEntry(uid, plantType, duration);
 
   addPlant(plantEntry);
   _slots[slotIndex] = uid;
@@ -168,10 +199,10 @@ function harvestPlant(uid) {
     _slots[slotIdx] = null;
     _clearSlot(slotIdx);
 
-    // Show floating text
+    // Show floating text (via ui.js — Dependency Inversion)
     const slotEl = _gridEl.children[slotIdx];
     if (slotEl && pt) {
-      _showFloatingText(slotEl, `+${pt.bmYield} BM`);
+      showFloatingText(slotEl, `+${pt.bmYield} BM`);
     }
   }
 
@@ -216,7 +247,7 @@ function _renderSlot(slotIdx, plant) {
 
   const pt = PLANT_TYPES[plant.type];
   const progress = plant.progress / plant.growthDuration;
-  const stage = _progressToStage(progress);
+  const stage = progressToStage(progress);
   const isMature = progress >= 1;
 
   slotEl.className = `plant-slot${isMature ? " mature" : ""}`;
@@ -232,13 +263,6 @@ function _clearSlot(slotIdx) {
   if (!slotEl) return;
   slotEl.className = "plant-slot empty";
   slotEl.innerHTML = "";
-}
-
-function _progressToStage(progress) {
-  if (progress >= 1.0) return 3;
-  if (progress >= 0.6) return 2;
-  if (progress >= 0.25) return 1;
-  return 0;
 }
 
 function _findSlotForUid(uid) {
@@ -257,20 +281,12 @@ function _updatePlantSelector() {
   }
 }
 
-function _showFloatingText(anchorEl, text) {
-  const rect = anchorEl.getBoundingClientRect();
-  const floatEl = document.createElement("div");
-  floatEl.className = "floating-bm";
-  floatEl.textContent = text;
-  floatEl.style.left = `${rect.left + rect.width / 2}px`;
-  floatEl.style.top = `${rect.top}px`;
-  floatEl.style.position = "fixed";
-  document.body.appendChild(floatEl);
-  floatEl.addEventListener("animationend", () => floatEl.remove());
-}
-
 export {
   PLANT_TYPES,
+  GROWTH_STAGE_THRESHOLDS,
+  progressToStage,
+  createPlantEntry,
+  calcGrowthDuration,
   initNursery,
   tickNursery,
   plantSeed,
